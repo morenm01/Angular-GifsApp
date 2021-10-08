@@ -9,3 +9,8 @@ html,body
   min-height: 100vh;
   min-width: 180px;
 }
+
+.card{
+  margin: 10px;
+  background-color: cornsilk;
+}
