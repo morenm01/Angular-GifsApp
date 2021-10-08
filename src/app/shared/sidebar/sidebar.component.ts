@@ -17,8 +17,8 @@ export class SidebarComponent{
   ngOnInit(): void {
   }
 
-  buscar_historial(query: string){
-    this.gifsService.buscarGifs(query);
+  buscar(termino: string){
+    this.gifsService.buscarGifs(termino);
   }
 
 }

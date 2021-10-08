@@ -1,5 +1,5 @@
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SearchGifsResponse, Gif } from '../interface/gifs.interface';
 
@@ -9,7 +9,8 @@ import { SearchGifsResponse, Gif } from '../interface/gifs.interface';
 })
 export class GifsService {
 
-  private apiKey: string = 'HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR'
+  private apiKey: string = 'HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR';
+  private servicioURL: string = 'https://api.giphy.com/v1/gifs';
   private _historial: string[]= [];
 
   //gif era el data de la interfaz SearchGifsResponse
@@ -34,12 +35,16 @@ export class GifsService {
     query = query.trim().toLocaleLowerCase();
 
 
+  //HttpParams es un objeto de angular
+    const params = new HttpParams()
+      .set('api_key', this.apiKey)
+      .set('limit',10)
+      .set('q', query);
 
-    /*obtenemos la interfaz de SearchGifsResponse a través de la página https://app.quicktype.io/
-     Realizamos la consulta en postman, copiamos/pegamos el resultado y le indicamos que estamos usando typescript
-     con el resultado nos creamos una interfaz del tipo gifs.interface.ts y ya lo podemos tipar*/
+      console.log(params.toString());
 
-    this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR&q=${query}&limit=10`)
+    // se pondría params: params pero en ECM6 poner una variable cuyo tipo tiene el mismo nombre es redundante, se puede dejar solo con el nombre de la variable
+    this.http.get<SearchGifsResponse>(`${this.servicioURL}/search`, { params})
       .subscribe( (resp) => {
         console.log(resp.data);
         this.resultados= resp.data;
