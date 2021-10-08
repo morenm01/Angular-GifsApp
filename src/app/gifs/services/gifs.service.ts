@@ -15,7 +15,7 @@ export class GifsService {
     return [...this._historial];
   }
 
-  buscarGifs(query: string){
+  async buscarGifs(query: string){
 
     //lo pasamos todo a minúsculas para que compare sin tener en cuenta esto
     query = query.trim().toLocaleLowerCase();
@@ -27,12 +27,8 @@ export class GifsService {
       this._historial = this._historial.slice(0,10);
 
     }
-    fetch('https://api.giphy.com/v1/gifs/search?api_key=HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR&q=dragon+ball+z&limit=25&offset=0&rating=g&lang=en')
-      .then( resp => {
-        //console.log(resp);
-        resp.json().then(data => {
-          console.log(data);
-        })
-      })
+    const resp = await fetch('https://api.giphy.com/v1/gifs/search?api_key=HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR&q=dragon+ball+z&limit=25&offset=0&rating=g&lang=en');
+    const data = await resp.json();
+    console.log(data);
   }
 }
