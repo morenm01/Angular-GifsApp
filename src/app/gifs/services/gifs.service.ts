@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -14,8 +15,11 @@ export class GifsService {
     //de forma que se pasa una copia pero no nuestra variable de esta clase, así no se puede modificar desde fuera
     return [...this._historial];
   }
+  constructor(private http: HttpClient){
 
-  async buscarGifs(query: string){
+  }
+
+ buscarGifs(query: string){
 
     //lo pasamos todo a minúsculas para que compare sin tener en cuenta esto
     query = query.trim().toLocaleLowerCase();
@@ -27,8 +31,10 @@ export class GifsService {
       this._historial = this._historial.slice(0,10);
 
     }
-    const resp = await fetch('https://api.giphy.com/v1/gifs/search?api_key=HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR&q=dragon+ball+z&limit=25&offset=0&rating=g&lang=en');
-    const data = await resp.json();
-    console.log(data);
+
+    this.http.get('https://api.giphy.com/v1/gifs/search?api_key=HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR&q=dragon+ball+z&limit=10')
+      .subscribe( (resp: any) =>
+        console.log(resp.data));
+
   }
 }
