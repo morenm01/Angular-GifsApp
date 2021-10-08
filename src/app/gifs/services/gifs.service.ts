@@ -1,5 +1,7 @@
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SearchGifsResponse, Gif } from '../interface/gifs.interface';
 
 @Injectable({
   providedIn: 'root' //esto le dice que no importa donde esté en la aplicación, se va a ver en toda la aplicación desde el root, por eso no hace falta meterlo en el module
@@ -9,6 +11,9 @@ export class GifsService {
 
   private apiKey: string = 'HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR'
   private _historial: string[]= [];
+
+  //gif era el data de la interfaz SearchGifsResponse
+  public resultados: Gif[]= [];
 
   get historial(){
     //se usa el operador spread ... para romper la referencia a la variable privada _historial
@@ -32,9 +37,16 @@ export class GifsService {
 
     }
 
-    this.http.get('https://api.giphy.com/v1/gifs/search?api_key=HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR&q=dragon+ball+z&limit=10')
-      .subscribe( (resp: any) =>
-        console.log(resp.data));
+    /*obtenemos la interfaz de SearchGifsResponse a través de la página https://app.quicktype.io/
+     Realizamos la consulta en postman, copiamos/pegamos el resultado y le indicamos que estamos usando typescript
+     con el resultado nos creamos una interfaz del tipo gifs.interface.ts y ya lo podemos tipar*/
 
+    this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR&q=${query}&limit=10`)
+      .subscribe( (resp) => {
+        console.log(resp.data);
+        this.resultados= resp.data;
+
+        resp.
+      });
   }
 }
