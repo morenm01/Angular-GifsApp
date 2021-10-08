@@ -29,13 +29,7 @@ export class GifsService {
     //lo pasamos todo a minúsculas para que compare sin tener en cuenta esto
     query = query.trim().toLocaleLowerCase();
 
-    //con este if vamos a evitar que se incluyan elementos repetidos con la función includes de ES6
-    if(!this._historial.includes(query)){
-      this._historial.unshift(query);
-      //vamos a evitar que se incluyan mas de 10 elementos, para ellos usamos slice
-      this._historial = this._historial.slice(0,10);
 
-    }
 
     /*obtenemos la interfaz de SearchGifsResponse a través de la página https://app.quicktype.io/
      Realizamos la consulta en postman, copiamos/pegamos el resultado y le indicamos que estamos usando typescript
@@ -46,7 +40,14 @@ export class GifsService {
         console.log(resp.data);
         this.resultados= resp.data;
 
-        resp.
+        //con este if vamos a evitar que se incluyan elementos repetidos con la función includes de ES6
+        if((!this._historial.includes(query)) && (resp.data.length!==0)){
+          this._historial.unshift(query);
+          //vamos a evitar que se incluyan mas de 10 elementos, para ellos usamos slice
+          this._historial = this._historial.slice(0,10);
+
+        }
+
       });
   }
 }
