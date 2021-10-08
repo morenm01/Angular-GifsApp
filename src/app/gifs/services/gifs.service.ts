@@ -21,7 +21,10 @@ export class GifsService {
     return [...this._historial];
   }
   constructor(private http: HttpClient){
-
+    this._historial= JSON.parse(localStorage.getItem('historial')!) || [];
+    /*if(localStorage.getItem('historial')){
+      this._historial= JSON.parse(localStorage.getItem('historial')!);
+    }*/
   }
 
  buscarGifs(query: string){
@@ -45,6 +48,9 @@ export class GifsService {
           this._historial.unshift(query);
           //vamos a evitar que se incluyan mas de 10 elementos, para ellos usamos slice
           this._historial = this._historial.slice(0,10);
+
+         // localStorage.setItem('historial', query);
+         localStorage.setItem('historial', JSON.stringify(this._historial));
 
         }
 
