@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class GifsService {
 
+  private apiKey: string = 'HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR'
   private _historial: string[]= [];
 
   get historial(){
@@ -26,6 +27,12 @@ export class GifsService {
       this._historial = this._historial.slice(0,10);
 
     }
-    console.log(this._historial);
+    fetch('https://api.giphy.com/v1/gifs/search?api_key=HNg6Vx4eB7zkeRBdxR5zwPe28iYsh6pR&q=dragon+ball+z&limit=25&offset=0&rating=g&lang=en')
+      .then( resp => {
+        //console.log(resp);
+        resp.json().then(data => {
+          console.log(data);
+        })
+      })
   }
 }
